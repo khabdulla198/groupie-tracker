@@ -18,18 +18,18 @@ type Artist struct {
 	Relations    string   `json:"relations"`
 }
 
-func getData() ([]Artist, error) {
+func GetData() ([]Artist, error) {
 	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
 	if err != nil {
 		return nil, err
 	}
 
+	defer resp.Body.Close()
+
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
-
-	defer resp.Body.Close()
 
 	var data []Artist
 

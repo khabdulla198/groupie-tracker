@@ -31,7 +31,7 @@ func homeHandle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//get the data from API
-	data, err := groupie.getData()
+	data, err := groupie.GetData()
 	if err != nil {
 		groupie.ErrorDisplay(w, http.StatusInternalServerError, err.Error())
 		return
