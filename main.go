@@ -30,13 +30,23 @@ func homeHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//get the data from API
+	data, err := groupie.getData()
+	if err != nil {
+		groupie.ErrorDisplay(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	//Parse html file
 	templ, err := template.ParseFiles("static/index.html")
 	if err != nil {
 		groupie.ErrorDisplay(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	err = templ.Execute(w, nil)
+	//Execute if everything is fine
+	//rather than nill it is gonna be data
+	err = templ.Execute(w, data)
 	if err != nil {
 		groupie.ErrorDisplay(w, http.StatusInternalServerError, err.Error())
 		return
