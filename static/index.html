@@ -4,8 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Groupie Tracker</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
-    
+    <h1>Groupie Tracker</h1>
+    <form action="/artist" method="post">
+    <div class="grid">
+        {{range .}}
+        <button class="card" type="submit" name="artist" value="{{.Id}}">
+            <img src="{{.Image}}" alt="{{.Name}}">
+            <h2>{{.Name}}</h2>
+        </button>
+        {{end}}
+    </div>
+</form>
 </body>
 </html>

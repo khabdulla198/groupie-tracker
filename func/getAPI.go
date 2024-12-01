@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"strconv"
 )
 
 type Artist struct {
@@ -18,8 +19,41 @@ type Artist struct {
 	Relations    string   `json:"relations"`
 }
 
+type Relations struct {
+	Id             int                 `json:"id"`
+	DatesLocations map[string][]string `json:"datesLocations"`
+}
+
 func GetData() ([]Artist, error) {
+	//get the data from API
 	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
+	if err != nil {
+		return nil, err
+	}
+
+	//close the response body
+	defer resp.Body.Close()
+
+	//read the response body which is the data in the API
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var data []Artist
+
+	//convert the data
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+
+}
+
+func GetRelations(id int) ([]Relations, error) {
+	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/relation/" + strconv.Itoa(id))
 	if err != nil {
 		return nil, err
 	}
@@ -31,13 +65,19 @@ func GetData() ([]Artist, error) {
 		return nil, err
 	}
 
-	var data []Artist
+	var data map[string][]Relations
 
 	err = json.Unmarshal(body, &data)
 	if err != nil {
 		return nil, err
 	}
 
-	return data, nil
+	// Extract data from the "index" key
+	relations, exist := data["index"]
+	if !exist {
+		return nil, err
+	}
+
+	return relations, nil
 
 }
