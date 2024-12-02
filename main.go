@@ -78,11 +78,11 @@ func artistHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	location, err := groupie.GetRelations(aid)
-	if err != nil {
-		groupie.ErrorDisplay(w, http.StatusInternalServerError, err.Error())
-		return
-	}
+	// location, err := groupie.GetRelations(aid)
+	// if err != nil {
+	// 	groupie.ErrorDisplay(w, http.StatusInternalServerError, err.Error())
+	// 	return
+	// }
 
 	//Parse html file
 	templ, err := template.ParseFiles("static/artist.html")
@@ -98,10 +98,10 @@ func artistHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = templ.Execute(w, location)
-	if err != nil {
-		groupie.ErrorDisplay(w, http.StatusInternalServerError, err.Error())
-		return
-	}
+	// err = templ.Execute(w, location)
+	// if err != nil {
+	// 	groupie.ErrorDisplay(w, http.StatusInternalServerError, err.Error())
+	// 	return
+	// }
 
 }
