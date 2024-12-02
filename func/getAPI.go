@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	"strconv"
 )
 
 type Artist struct {
@@ -52,8 +51,8 @@ func GetData() ([]Artist, error) {
 
 }
 
-func GetRelations(id int) ([]Relations, error) {
-	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/relation/" + strconv.Itoa(id))
+func GetRelations() ([]Relations, error) {
+	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/relation")
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +75,7 @@ func GetRelations(id int) ([]Relations, error) {
 	relations, exist := data["index"]
 	if !exist {
 		return nil, err
-	}
+	} 
 
 	return relations, nil
 

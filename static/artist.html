@@ -12,14 +12,21 @@
             <a href="/">← Back</a>
         </div>
         <div class="artist_Container">
-            <img src="{{.Image}}" alt="{{.Name}}">
-            <p>{{.Name}}</p>
-            {{range .Members}}
+            <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}">
+            <p>{{.Artist.Name}}</p>
+            {{range .Artist.Members}}
             <p>{{.}}</p>
             {{end}}
-            <p>{{.CreationDate}}</p>
-            <p>{{.FirstAlbum}}</p>
-            
+            <p>{{.Artist.CreationDate}}</p>
+            <p>{{.Artist.FirstAlbum}}</p>
+            {{range $location, $dates := .Relations.DatesLocations}}
+            <p>{{$location}}: </p>
+            {{range $dates}}
+            <p>
+                {{.}} 
+            </p>
+            {{end}}
+            {{end}}
             
         </div>
     </div>

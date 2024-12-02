@@ -56,6 +56,7 @@ func homeHandle(w http.ResponseWriter, r *http.Request) {
 
 func artistHandle(w http.ResponseWriter, r *http.Request) {
 	id := r.FormValue("artist")
+
 	if id == "" {
 		groupie.ErrorDisplay(w, http.StatusBadRequest, "Missing artist ID")
 		return
@@ -71,37 +72,39 @@ func artistHandle(w http.ResponseWriter, r *http.Request) {
 	//get the index of the artist
 	i := aid - 1
 
-	//get the data from API
-	data, err := groupie.GetData()
+	//struct to hold both artist and relations data
+	type PageData struct {
+		Artist    groupie.Artist
+		Relations groupie.Relations
+	}
+
+	artist, err := groupie.GetData()
 	if err != nil {
 		groupie.ErrorDisplay(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	// location, err := groupie.GetRelations(aid)
-	// if err != nil {
-	// 	groupie.ErrorDisplay(w, http.StatusInternalServerError, err.Error())
-	// 	return
-	// }
+	relations, err := groupie.GetRelations()
+	if err != nil {
+		groupie.ErrorDisplay(w, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-	//Parse html file
+	//combine the data
+	data := PageData{
+		Artist:    artist[i],
+		Relations: relations[i],
+	}
+
 	templ, err := template.ParseFiles("static/artist.html")
 	if err != nil {
 		groupie.ErrorDisplay(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	//Execute if everything is fine
-	err = templ.Execute(w, data[i])
+	err = templ.Execute(w, data)
 	if err != nil {
 		groupie.ErrorDisplay(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-
-	// err = templ.Execute(w, location)
-	// if err != nil {
-	// 	groupie.ErrorDisplay(w, http.StatusInternalServerError, err.Error())
-	// 	return
-	// }
-
 }
