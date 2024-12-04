@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artist Details</title>
-    <link rel="stylesheet" href="/static/style.css">
     <style>
+        :root {
+            --primary: #2a2a72;
+            --secondary: #009ffd;
+            --background: #f8f9fa;
+            --text: #2d3436;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
         body, html {
             margin: 0;
             padding: 0;
@@ -18,7 +25,7 @@
         .artist-page {
             display: grid;
             grid-template-columns: 1fr 2fr;
-            grid-template-areas: 
+            grid-template-areas:
                 "sidebar main";
             min-height: 100vh;
             width: 100%;
@@ -33,23 +40,23 @@
             flex-direction: column;
             align-items: center;
             padding: 2rem;
-            box-shadow: 10px 0 20px rgba(0,0,0,0.1);
+            box-shadow: 10px 0 20px rgba(0, 0, 0, 0.1);
         }
 
         .artist-image {
-            width: 250px;
-            height: 250px;
+            width: 350px;
+            height: 350px;
             object-fit: cover;
             border-radius: 50%;
             border: 5px solid white;
             margin-top: 2rem;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             transition: all 0.4s ease;
         }
 
         .artist-image:hover {
-            transform: scale(1.05) rotate(3deg);
-            box-shadow: 0 20px 45px rgba(0,0,0,0.3);
+            transform: scale(1.1) rotate(3deg);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
         }
 
         .artist-main {
@@ -57,12 +64,12 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 2rem;
-            background: rgba(255,255,255,0.9);
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.9);
         }
 
         .artist-name {
-            font-size: 4rem;
+            font-size: 5rem;
             color: var(--primary);
             margin-bottom: 2rem;
             position: relative;
@@ -87,8 +94,8 @@
         .info-section {
             background: var(--background);
             border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease;
         }
 
@@ -112,23 +119,39 @@
             color: white;
             text-decoration: none;
             font-weight: bold;
-            transition: color 0.3s ease;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
         .back-link:hover {
             color: var(--secondary);
+            transform: scale(1.1);
+        }
+
+        .back-link::before {
+            content: "←";
+            font-size: 1.5rem;
+            display: inline-block;
         }
 
         @media (max-width: 1024px) {
             .artist-page {
                 grid-template-columns: 1fr;
-                grid-template-areas: 
+                grid-template-areas:
                     "sidebar"
                     "main";
             }
 
             .artist-sidebar {
                 padding: 1rem;
+            }
+
+            .artist-image {
+                width: 250px;
+                height: 250px;
             }
 
             .artist-name {
@@ -138,13 +161,21 @@
             .details-grid {
                 grid-template-columns: 1fr;
             }
+
+            .back-link {
+                font-size: 1rem;
+            }
+
+            .back-link::before {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="artist-page">
         <div class="artist-sidebar">
-            <a href="/" class="back-link">← Home</a>
+            <a href="/" class="back-link">Home</a>
             <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}" class="artist-image">
         </div>
         
